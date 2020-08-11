@@ -1,10 +1,11 @@
 :root {
-  --bodyText: hsl(242, 15%, 32%);
-  --textLight: hsla(300, 8%, 5%, 0.945);
+  --bodyText: hsl(249, 58%, 46%);
+  --textLight: hsl(300, 8%, 5%);
   --textDark: hsl(0, 0%, 99%);
   --borderColor: hsla(0, 0%, 21%, 0.062);
-  --bgLight: hsla(0, 0%, 99%, 0.062);
-  --bgDark: hsla(300, 8%, 5%, 0.945);
+  --bgLight: hsl(0, 0%, 99%);
+  --bgDark: hsl(300, 8%, 5%);
+  --contrast: hsl(347, 87%, 41%);
 }
 
 * {
@@ -31,6 +32,10 @@ body {
 
 .w-75 {
   width: 75%;
+}
+
+.mx-1 {
+  margin: 0px 0.5rem;
 }
 .d-flex {
   display: flex;
@@ -81,7 +86,7 @@ body {
 .card-header {
   font-size: 1.618rem;
   font-weight: 500;
-  color: hsl(347, 87%, 41%);
+  color: var(--contrast);
 }
 
 .card-body {

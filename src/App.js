@@ -60,7 +60,7 @@ function handleOrientation(event, setLocalX, setLocalY, setLocalZ) {
 
 export default function App() {
   dark.toggle();
-  // console.log(dark.isActivated());
+  console.log(dark.isActivated());
   const [localZ, setLocalZ] = React.useState(0);
   const [localX, setLocalX] = React.useState(0);
   const [localY, setLocalY] = React.useState(0);
@@ -70,11 +70,6 @@ export default function App() {
   const [shakeCount, setShakeCount] = React.useState(0);
   const [darkMode, setDarkMode] = React.useState(false);
   let timeout = null;
-  const [darkSetting, setDarkSetting] = React.useState({
-    brightness: 100,
-    contrast: 100,
-    sepia: 10
-  });
   const [shake, setShake] = React.useState(false);
 
   React.useEffect(() => {
@@ -158,7 +153,7 @@ export default function App() {
   const content = () => (
     <div className="d-flex flex-wrap w-max justify-content-center">
       <div className="card">
-        <h1 className="card-header">
+        <h1 className="card-header text-light">
           A small react Library to Toggle Dark Mode on Shake or Flip
         </h1>
       </div>
@@ -174,7 +169,8 @@ export default function App() {
         }}
       >
         <h2 className="d-flex justify-content-center">
-          Shake your mobile device twice to switch to
+          Shake your mobile device{" "}
+          <span class="card-header mx-1"> twice ( x 2 ) </span> to switch to
         </h2>
         <div className="card card-body d-flex justify-content-center align-items-center">
           <legend>{darkMode ? "White" : "Black"}</legend>
