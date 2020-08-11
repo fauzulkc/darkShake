@@ -1,0 +1,117 @@
+:root {
+  --bodyText: hsl(242, 15%, 32%);
+  --textLight: hsla(300, 8%, 5%, 0.945);
+  --textDark: hsl(0, 0%, 99%);
+  --borderColor: hsla(0, 0%, 21%, 0.062);
+  --bgLight: hsla(0, 0%, 99%, 0.062);
+  --bgDark: hsla(300, 8%, 5%, 0.945);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  font-family: "Kreon", serif;
+}
+
+body {
+  color: var(--bodyText);
+  background: white;
+  max-width: 100vw;
+  line-height: 2.5rem;
+}
+
+.w-max {
+  width: 100%;
+}
+
+.w-75 {
+  width: 75%;
+}
+.d-flex {
+  display: flex;
+}
+
+.flex-row {
+  flex-direction: row;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.justify-content-center {
+  justify-content: center;
+}
+
+.align-item-center {
+  align-items: center;
+}
+
+.bg-light {
+  background-color: var(--bgLight);
+}
+
+.bg-dark {
+  background-color: var(--bgDark);
+}
+
+.text-light {
+  color: var(--textLight);
+}
+
+.text-dark {
+  color: var(--textDark);
+}
+
+.card {
+  padding: 2rem;
+  margin: 2.5rem;
+  border: 1px solid var(--borderColor);
+}
+
+.card-header {
+  font-size: 1.618rem;
+  font-weight: 500;
+  color: hsl(347, 87%, 41%);
+}
+
+.card-body {
+  font-size: 3rem;
+}
+
+.animatedText {
+  animation-name: shake;
+  animation-duration: 2000ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-out;
+}
+
+@keyframes shake {
+  0% {
+    transform: translate3d(0px, 0, 0px);
+  }
+  20% {
+    transform: translate3d(-40px, 0, 0px);
+  }
+  40% {
+    transform: translate3d(0px, 0, 0px);
+  }
+  50% {
+    transform: translate3d(-40px, 0, 0px);
+  }
+  70% {
+    transform: translate3d(10px, 0, 0px);
+  }
+  100% {
+    transform: translate3d(0px, 0, 0px);
+  }
+}
