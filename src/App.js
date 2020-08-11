@@ -5,10 +5,6 @@ import Darkmode from "darkmode-js";
 
 const dark = new Darkmode();
 
-// import * as darkreader from "darkreader";
-
-// darkreader.enable();
-
 let myShakeEvent = new Shake({
   threshold: 5, // optional shake strength threshold
   timeout: 150 // optional, determines the frequency of event generation
@@ -74,10 +70,6 @@ export default function App() {
 
   React.useEffect(() => {
     myShakeEvent.start();
-
-    // window.addEventListener("shake", (e) =>
-    //   shakeEventDidOccur(e, darkToggle, setDarkToggle)
-    // );
     window.addEventListener("shake", () => shakeEventDidOccur(setShake));
     window.addEventListener("deviceorientation", (e) =>
       handleOrientation(e, setLocalX, setLocalY, setLocalZ)
@@ -124,22 +116,10 @@ export default function App() {
     // if (localX * localY <= -1) {
     if (!darkToggle) {
       dark.toggle();
-
-      // darkreader.enable({
-      //   brightness: 100,
-      //   contrast: 100,
-      //   sepia: 0,
-      //   mode: 1
-      // });
       setDarkMode(true);
     } else if (darkToggle) {
       dark.toggle();
-      // darkreader.enable({
-      //   brightness: 100,
-      //   contrast: 500,
-      //   sepia: 0,
-      //   mode: 0
-      // });
+
       setDarkMode(false);
     }
     // }
@@ -181,11 +161,6 @@ export default function App() {
         </h4>
         {darkToggle}
       </div>
-
-      {/* <pre className="output">
-        Localbeta: {localX.toFixed(2)} | LocalGamma: {localY.toFixed(2)} |
-        LocalAlpha: {localZ.toFixed(2)}
-      </pre> */}
       <pre className="output">
         mouseX: {mouseX} | mouseY: {mouseY}
       </pre>
