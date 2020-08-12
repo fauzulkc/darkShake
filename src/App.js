@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import "./styles.css";
 import Shake from "shake.js";
 import Darkmode from "darkmode-js";
@@ -6,14 +6,18 @@ import Darkmode from "darkmode-js";
 const dark = new Darkmode();
 
 let myShakeEvent = new Shake({
-  threshold: 5, // optional shake strength threshold
-  timeout: 150 // optional, determines the frequency of event generation
+  threshold: 3.5, // optional shake strength threshold
+  timeout: 210 // optional, determines the frequency of event generation
 });
 
 //function to call when shake occurs
 function shakeEventDidOccur(setShake) {
-  setShake(true);
-  window.navigator.vibrate(60);
+  new Promise((res, _) => {
+    res(navigator.vibrate([100]));
+  }).then(() => {
+    console.log("vibration:", navigator.vibrate([60]));
+    setShake(true);
+  });
 }
 
 function handleMouseMove(event, setMouseX, setMouseY) {
@@ -26,15 +30,11 @@ let x = 0;
 let y = 0;
 
 function handleOrientation(event, setLocalX, setLocalY, setLocalZ) {
-  z = event.alpha; // In degree in the range [-90,90]
   x = event.beta; // In degree in the range [-180,180]
   y = event.gamma; // In degree in the range [-90,90]
+  z = event.alpha | 0; // In degree in the range [-90,90]
 
   // console.log(x, y);
-
-  setLocalZ(event.alpha);
-  setLocalX(event.beta);
-  setLocalY(event.gamma);
 
   // Because we don't want to have the device upside down
   // We constrain the x value to the range [-90,90]
@@ -50,13 +50,12 @@ function handleOrientation(event, setLocalX, setLocalY, setLocalZ) {
   x += 90;
   y += 90;
 
-  // 10 is half the size of the ball
-  // It center the positioning point to the center of the ball
+  setLocalX(x);
+  setLocalY(y);
+  setLocalZ(z);
 }
 
 export default function App() {
-  dark.toggle();
-  console.log(dark.isActivated());
   const [localZ, setLocalZ] = React.useState(0);
   const [localX, setLocalX] = React.useState(0);
   const [localY, setLocalY] = React.useState(0);
@@ -65,10 +64,11 @@ export default function App() {
   const [darkToggle, setDarkToggle] = React.useState(false);
   const [shakeCount, setShakeCount] = React.useState(0);
   const [darkMode, setDarkMode] = React.useState(false);
-  let timeout = null;
+  const timeout = useRef(null);
   const [shake, setShake] = React.useState(false);
 
   React.useEffect(() => {
+    console.log(navigator.vibrate(0));
     myShakeEvent.start();
     window.addEventListener("shake", () => shakeEventDidOccur(setShake));
     window.addEventListener("deviceorientation", (e) =>
@@ -83,32 +83,36 @@ export default function App() {
       );
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("shake", () => shakeEventDidOccur(setShake));
+      clearTimeout(timeout.current);
     };
   }, []);
 
   React.useEffect(() => {
     console.log(`shakeCount is : ${shakeCount}`);
     if (shake) {
-      if (shakeCount !== 2) {
-        setShakeCount(shakeCount + 1);
-        setShake(false);
-      }
-      timeout = setTimeout(() => {
+      setShakeCount((shakeC) => shakeC + 1);
+      console.log("logging shake", shake);
+      setShake(false);
+      timeout.current = setTimeout(() => {
         setShakeCount(0);
-      }, 600);
+      }, 740);
     }
   }, [shake]);
 
   React.useEffect(() => {
-    console.log("applying count", shakeCount);
+    if (shakeCount === 0) {
+      console.log("timeout count", shakeCount);
+    } else {
+      console.log("applying count", shakeCount);
+    }
     if (shakeCount === 2) {
-      setDarkToggle(!darkToggle);
+      setDarkToggle((dToggle) => !dToggle);
       setShake(false);
       setShakeCount(0);
     }
 
     return () => {
-      clearTimeout(timeout);
+      // clearTimeout(timeout.current);
     };
   }, [shakeCount]);
 
@@ -134,7 +138,7 @@ export default function App() {
     <div className="d-flex flex-wrap w-max justify-content-center">
       <div className="card">
         <h1 className="card-header text-light">
-          A small react Library to Toggle Dark Mode on Shake or Flip
+          A small react Library to Toggle Dark Mode on Shake or Twist
         </h1>
       </div>
 
@@ -150,7 +154,7 @@ export default function App() {
       >
         <h2 className="d-flex justify-content-center">
           Shake your mobile device{" "}
-          <span class="card-header mx-1"> twice ( x 2 ) </span> to switch to
+          <span className="card-header mx-1"> twice ( x 2 ) </span> to switch to
         </h2>
         <div className="card card-body d-flex justify-content-center align-items-center">
           <legend>{darkMode ? "White" : "Black"}</legend>
