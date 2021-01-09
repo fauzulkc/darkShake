@@ -16,6 +16,7 @@ function shakeEventDidOccur(setShake) {
     res(navigator.vibrate([100]));
   }).then(() => {
     console.log("vibration:", navigator.vibrate([60]));
+    console.log("integration Test");
     setShake(true);
   });
 }
